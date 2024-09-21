@@ -6,18 +6,17 @@ import { MdOutlineSecurity } from "react-icons/md";
 // Sidebar component
 const Sidebar = ({ activeMenu, setActiveMenu }) => {
     return (
-        <div className="w-64 bg-black h-screen p-6 shadow shadow-red-700">
-            <h2 className="text-2xl font-bold text-white mb-8">Settings</h2>
+        <div className="md:w-64 w-[100px] bg-black h-screen md:p-6 p-4 shadow shadow-red-700">
+            <h2 className="text-2xl font-bold text-white mb-8 hidden md:inline">Settings</h2>
             <ul className="space-y-4 flex flex-col-reverse">
-
                 <li>
                     <button
                         onClick={() => setActiveMenu('changePassword')}
-                        className={`text-lg font-semibold w-full text-left py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none flex gap-2 items-center 
+                        className={`text-lg font-semibold w-full text-left py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none flex gap-2 items-center mt-4
                             ${activeMenu === 'changePassword' ? 'bg-red-600 text-white' : 'text-gray-400'}`}
                     >
                         <MdOutlineSecurity className="text-2xl" />
-                        Change Password
+                        <span className="hidden md:inline">Change Password</span>
                     </button>
                 </li>
 
@@ -28,17 +27,18 @@ const Sidebar = ({ activeMenu, setActiveMenu }) => {
                             ${activeMenu === 'profile' ? 'bg-red-600 text-white' : 'text-gray-400'}`}
                     >
                         <CgProfile className='text-2xl' />
-                        Profile
+                        <span className="hidden md:inline">Profile</span>
                     </button>
                 </li>
+
                 <li>
                     <button
                         onClick={() => setActiveMenu('notifications')}
-                        className={`text-lg font-semibold w-full text-left py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none flex gap-2 items-center 
+                        className={`text-lg font-semibold w-full text-left py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none flex gap-2 items-center
                             ${activeMenu === 'notifications' ? 'bg-red-600 text-white' : 'text-gray-400'}`}
                     >
                         <IoNotificationsOutline className="text-2xl" />
-                        Notifications
+                        <span className="hidden md:inline">Notifications</span>
                     </button>
                 </li>
 
@@ -49,7 +49,7 @@ const Sidebar = ({ activeMenu, setActiveMenu }) => {
                             ${activeMenu === 'myLibrary' ? 'bg-red-600 text-white' : 'text-gray-400'}`}
                     >
                         <VscLibrary className="text-2xl" />
-                        My Library
+                        <span className="hidden md:inline">My Library</span>
                     </button>
                 </li>
                 {/* Add more menu items here */}

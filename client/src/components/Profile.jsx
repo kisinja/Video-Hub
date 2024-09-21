@@ -6,7 +6,6 @@ import { updateProfileSuccess } from '../redux/userSlice';
 import { CiEdit } from "react-icons/ci";
 
 const Profile = () => {
-
     const user = useSelector(state => state.user.currentUser);
 
     const [formData, setFormData] = useState({
@@ -19,21 +18,17 @@ const Profile = () => {
         pronouns: user.pronouns || '',
     });
 
-    console.log(user);
-
     const token = useSelector((state) => state.user.currentUser?.token);
     const [avatar, setAvatar] = useState(null);
-
     const [preview, setPreview] = useState(
         user.avatar.startsWith('/uploads/avatars')
-            ? `http://localhost:3500${user.avatar}`  // Fetch from server for custom avatar
-            : user.avatar  // Use the default avatar URL
+            ? `http://localhost:3500${user.avatar}`
+            : user.avatar
     );
 
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-
     const dispatch = useDispatch();
 
     const { getRootProps, getInputProps } = useDropzone({
@@ -58,8 +53,6 @@ const Profile = () => {
             ...formData,
             [name]: value,
         });
-
-        console.log(formData);
     };
 
     const handleSubmit = async (e) => {
@@ -77,7 +70,7 @@ const Profile = () => {
         data.append('website', formData.website);
         data.append('pronouns', formData.pronouns);
         if (avatar) {
-            data.append('avatar', avatar); // Ensure this matches multer configuration
+            data.append('avatar', avatar);
         }
 
         try {
@@ -89,22 +82,12 @@ const Profile = () => {
             });
 
             if (response.status === 200) {
-                console.log(response.data);
-                setLoading(false);
-                // Update user profile in Redux store
-                dispatch(
-                    updateProfileSuccess(
-                        response.data.user
-                    )
-                );
-
+                dispatch(updateProfileSuccess(response.data.user));
                 setMessage(response.data.message);
             } else {
-                console.log(response.data);
                 setError(response.data.error);
             }
         } catch (error) {
-            console.error('Error updating profile:', error);
             setError("Failed to update profile");
         } finally {
             setLoading(false);
@@ -112,79 +95,29 @@ const Profile = () => {
     };
 
     return (
-        <div className="p-8">
-            <h1 className="text-3xl font-light text-white mb-6 flex gap-2 items-center">
+        <div className="p-4 md:p-8">
+            <h1 className="text-2xl md:text-3xl font-light text-white mb-6 flex gap-2 items-center">
                 Edit Profile
-
             </h1>
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label className="block text-gray-400">Username</label>
-                        <input
-                            type="text"
-                            name="username"
-                            value={formData.username}
-                            onChange={handleChange}
-                            className="w-full border border-gray-600 rounded px-4 py-2 bg-gray-800 text-white"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-gray-400">Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            className="w-full border border-gray-600 rounded px-4 py-2 bg-gray-800 text-white"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-gray-400">Age</label>
-                        <input
-                            type="number"
-                            name="age"
-                            value={formData.age}
-                            onChange={handleChange}
-                            className="w-full border border-gray-600 rounded px-4 py-2 bg-gray-800 text-white"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-gray-400">Location</label>
-                        <input
-                            type="text"
-                            name="location"
-                            value={formData.location}
-                            onChange={handleChange}
-                            className="w-full border border-gray-600 rounded px-4 py-2 bg-gray-800 text-white"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-gray-400">Website</label>
-                        <input
-                            type="url"
-                            name="website"
-                            value={formData.website}
-                            onChange={handleChange}
-                            className="w-full border border-gray-600 rounded px-4 py-2 bg-gray-800 text-white"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-gray-400">Pronouns</label>
-                        <input
-                            type="text"
-                            name="pronouns"
-                            value={formData.pronouns}
-                            onChange={handleChange}
-                            className="w-full border border-gray-600 rounded px-4 py-2 bg-gray-800 text-white"
-                        />
-                    </div>
+                    {['username', 'email', 'age', 'location', 'website', 'pronouns'].map((field) => (
+                        <div key={field}>
+                            <label className="block text-gray-400">{field.charAt(0).toUpperCase() + field.slice(1)}</label>
+                            <input
+                                type={field === 'age' ? 'number' : 'text'}
+                                name={field}
+                                value={formData[field]}
+                                onChange={handleChange}
+                                className="w-full border border-gray-600 rounded px-4 py-2 bg-gray-800 text-white"
+                            />
+                        </div>
+                    ))}
                 </div>
 
                 <div>
                     <label className="block text-gray-400">Bio</label>
                     <textarea
-                        type="text"
                         name="bio"
                         value={formData.bio}
                         onChange={handleChange}
@@ -194,16 +127,13 @@ const Profile = () => {
 
                 {/* Avatar Dropzone */}
                 <div className="mt-6">
-                    <label className="block text-gray-400 mb-2">
-                        Avatar
-                    </label>
+                    <label className="block text-gray-400 mb-2">Avatar</label>
                     <div {...getRootProps({ className: 'dropzone border-2 border-dashed border-gray-300 p-4 text-center rounded' })}>
                         <input {...getInputProps()} />
                         {preview ? (
                             <div>
-                                <img src={preview} alt="avatar preview" className="mx-auto h-[120px] w-[120px] rounded-full" />
-
-                                <button className="text-blue-400 text-3xl mt-2">
+                                <img src={preview} alt="avatar preview" className="mx-auto h-28 w-28 rounded-full" />
+                                <button className="text-blue-400 text-2xl mt-2">
                                     <CiEdit className='bg-gray-700 p-1' title='Change avatar' />
                                 </button>
                             </div>
@@ -216,16 +146,14 @@ const Profile = () => {
                 <div className="mt-6 flex justify-center items-center">
                     <button
                         type="submit"
-                        className="px-6 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-600 focus:outline-none focus:ring-4 focus:ring-blue-600 focus:border-2 focus:border-black focus:bg-white focus:text-black"
+                        className="px-6 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-600 focus:outline-none focus:ring-4 focus:ring-blue-600"
                     >
-                        {
-                            loading ? 'Loading...' : 'Update Profile'
-                        }
+                        {loading ? 'Loading...' : 'Update Profile'}
                     </button>
                 </div>
 
-                {error && <div className='error'>{error}</div>}
-                {message && <div className='message'>{message}</div>}
+                {error && <div className='error text-red-500'>{error}</div>}
+                {message && <div className='message text-green-500'>{message}</div>}
             </form>
         </div>
     );

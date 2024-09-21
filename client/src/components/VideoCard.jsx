@@ -23,7 +23,7 @@ const VideoCard = ({ video }) => {
     const user = useSelector(state => state.user.currentUser);
 
     return (
-        <Link to={`/watch/video/${video._id}`} className={`group block focus:outline-none relative rounded-lg overflow-hidden shadow-md md:shadow-lg transition-all duration-300 ease-in-out hover:shadow-red-600 w-[300px] md:w-full ${isFocused ? 'shadow-lg shadow-red-600 ring-4 ring-red-600 ring-opacity-50' : ''}`} onClick={handleCardClick}>
+        <Link to={`/watch/video/${video._id}`} className={`group block focus:outline-none relative rounded-lg overflow-hidden shadow-md md:shadow-lg transition-all duration-300 ease-in-out hover:shadow-red-600 w-full ${isFocused ? 'shadow-lg shadow-red-600 ring-4 ring-red-600 ring-opacity-50' : ''}`} onClick={handleCardClick}>
             <div className="rounded-lg overflow-hidden shadow-lg relative" key={video._id}>
                 {/* Thumbnail section */}
                 <div className="md:h-[350px] h-56 w-full relative ">
