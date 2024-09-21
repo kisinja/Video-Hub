@@ -3,6 +3,7 @@ const Notification = require('../models/Notification');
 const upload = require('../utils/multerConfig');
 const fs = require('fs');
 const path = require('path');
+const bcrypt = require('bcryptjs');
 
 // @desc    Follow a user
 const followUser = async (req, res) => {
@@ -241,6 +242,41 @@ const getUserHoveredDetails = async (req, res) => {
     }
 };
 
+// change password
+const changePassword = async (req, res) => {
+    const { currentPassword, newPassword } = req.body;
+    const userId = req.user._id;
+
+    try {
+        // Fetch the user from the database
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ success: false, error: 'User not found.' });
+        }
+
+        // Compare the current password with the stored password hash
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+
+        if (!isMatch) {
+            return res.status(400).json({ success: false, error: 'Current password is incorrect.' });
+        }
+
+        // Hash the new password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+        // Update the user's password in the database
+        user.password = hashedPassword;
+        await user.save();
+
+        return res.status(200).json({ success: true, message: 'Password changed successfully.' });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 module.exports = {
     followUser,
     unfollowUser,
@@ -248,5 +284,6 @@ module.exports = {
     checkFollowingStatus,
     getUserProfile,
     updateUserProfile,
-    getUserHoveredDetails
+    getUserHoveredDetails,
+    changePassword
 };

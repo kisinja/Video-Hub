@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { followUser, unfollowUser, getUserWithFollowingAndFollowers, checkFollowingStatus, getUserProfile, updateUserProfile, getUserHoveredDetails } = require('../controllers/user');
+const { followUser, unfollowUser, getUserWithFollowingAndFollowers, checkFollowingStatus, getUserProfile, updateUserProfile, getUserHoveredDetails, changePassword } = require('../controllers/user');
 
 const router = express.Router();
 
@@ -21,5 +21,7 @@ router.get('/profile/:userId', getUserProfile);
 router.put('/update', updateUserProfile);
 
 router.get('/:userId/hover', getUserHoveredDetails);
+
+router.put('/change-password', changePassword);
 
 module.exports = router;
