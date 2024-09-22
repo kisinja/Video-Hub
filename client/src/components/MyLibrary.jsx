@@ -55,16 +55,21 @@ const MyLibrary = () => {
                             alt="Uploader Avatar"
                             className="w-[120px] h-[120px] rounded-full"
                         />
-                        <div>
+                        <div className="flex flex-col gap-2">
                             <p className="font-light tracking-wider text-2xl">{user.username || 'Loading...'}</p>
                             <p className="text-red-500 font-light text-lg tracking-wider">{user.pronouns}</p>
+
+                            <div>
+                                <button className="bg-blue-500 text-white py-2 px-3 rounded font-semibold">
+                                    Edit Profile
+                                </button>
+                            </div>
                         </div>
                     </div>
 
                     <div className="flex flex-col gap-4">
                         {user.bio && (
                             <div className="text-gray-300 font-light tracking-wider">
-                                <h3 className="text-md text-white">Bio:</h3>
                                 <span className="text-xs">{user.bio}</span>
                             </div>
                         )}

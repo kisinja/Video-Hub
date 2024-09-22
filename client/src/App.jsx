@@ -7,17 +7,22 @@ import Footer from './components/Footer';
 import VideoDetails from './pages/VideoDetails';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
-import { useSelector } from 'react-redux';
 import ProfilePage from './pages/ProfilePage';
-const App = () => {
+import { useSelector } from 'react-redux';
+import { useSocketConnection } from './components/SocketProvider'; // Ensure your socket provider is correctly set up
 
+const App = () => {
   const { currentUser: user } = useSelector((state) => state.user);
+
+  // Establish socket connection using the hook outside of the effect
+  useSocketConnection(); // Hook should be called directly here, not inside useEffect
 
   return (
     <>
       <Navbar />
       <div className='px-[5%] xl:px-24 py-8'>
         <Routes>
+          {/* Protect routes, redirect to login if no user is logged in */}
           <Route path="/" element={user ? <Home /> : <Navigate to="/login" />} />
           <Route path="/profile" element={user ? <ProfilePage /> : <Navigate to="/login" />} />
           <Route path="/upload" element={user ? <UploadVideo /> : <Navigate to="/login" />} />
@@ -29,7 +34,7 @@ const App = () => {
       </div>
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

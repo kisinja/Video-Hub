@@ -8,6 +8,8 @@ const FollowButton = ({ userId, targetUserId }) => {
 
     const token = useSelector(state => state.user.currentUser?.token);
 
+    const user = useSelector(state => state.user.currentUser);
+
     // Creating axios instance with token
     const publicRequest = createPublicRequest(token);
 
@@ -40,6 +42,10 @@ const FollowButton = ({ userId, targetUserId }) => {
         } finally {
             setLoading(false);
         }
+    };
+
+    if (user._id === targetUserId) {
+        return null;
     };
 
     return (

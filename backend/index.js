@@ -3,6 +3,8 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const path = require("path");
+const http = require('http');
+const socketIo = require('socket.io');
 
 const app = express();
 
@@ -22,12 +24,58 @@ const connectDB = require('./db');
 // port
 const port = process.env.PORT || 5000;
 
+// socket io port
+const socketPort = process.env.SOCKET_PORT || 5000;
+
+// create a http server
+const server = http.createServer(app);
+
+// create a socket.io instance
+const io = socketIo(server, {
+    cors: {
+        origin: allowedOrigins,
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        credentials: true,
+    }
+});
+
+// Object to track users and their statuses
+const users = {};
+
+// Socket.io Connection
+io.on('connection', (socket) => {
+
+    // when a user connects, we store their socket id in the users object and set their status to online e.g { userId: { socketId: 'socketId', online: true } }
+    socket.on('user_connected', (userId) => {
+        users[userId] = { socketId: socket.id, online: true };
+
+        // emit an event to all connected clients to update the user status
+        io.emit('user_status_update', users);
+    });
+
+    // when a user disconnects, we set their status to offline
+    socket.on('disconnect', () => {
+        for (const userId in users) {
+            if (users[userId].socketId === socket.id) {
+                users[userId].online = false;
+                break;
+            }
+        }
+        io.emit('user_status_update', users);
+    });
+});
+
 // Start Server function
 const startServer = async () => {
     try {
         await connectDB();
         app.listen(port, () => {
             console.log(`Server listening on port ${port}`);
+        });
+
+        // Start the socket.io server
+        server.listen(socketPort, () => {
+            console.log(`Socket.io server running on port ${socketPort}`);
         });
     } catch (error) {
         console.error(`Error: ${error.message}`);

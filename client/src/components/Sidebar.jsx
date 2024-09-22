@@ -6,8 +6,8 @@ import { MdOutlineSecurity } from "react-icons/md";
 // Sidebar component
 const Sidebar = ({ activeMenu, setActiveMenu }) => {
     return (
-        <div className="md:w-64 w-[100px] bg-black h-screen md:p-6 p-4 shadow shadow-red-700">
-            <h2 className="text-2xl font-bold text-white mb-8 hidden md:inline">Settings</h2>
+        <div className="md:w-64 w-[100px] bg-black md:p-6 p-4 shadow shadow-red-700">
+            <h2 className="text-2xl font-bold text-white md:mb-12 hidden md:inline">Settings</h2>
             <ul className="space-y-4 flex flex-col-reverse">
                 <li>
                     <button

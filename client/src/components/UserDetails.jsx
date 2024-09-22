@@ -11,6 +11,10 @@ const UserDetails = ({ video, userId }) => {
     const [following, setFollowing] = useState(0);
 
     const { currentUser } = useSelector(state => state.user);
+    const onlineUsers = useSelector((state) => state.user.onlineUsers);
+
+    // Check if the current user is online
+    const isOnline = onlineUsers[currentUser._id]?.online;
 
     // Function to handle fetching user details when hover begins
     const handleMouseEnter = async () => {
@@ -21,7 +25,6 @@ const UserDetails = ({ video, userId }) => {
             const response = await publicRequest.get(`/users/${video?.uploadedBy?._id}/hover`);
 
             if (response.status === 200) {
-                console.log(response.data);
                 setUserInfo(response.data);
 
                 // Destructure the followers and following count from the response
@@ -51,15 +54,22 @@ const UserDetails = ({ video, userId }) => {
             onMouseLeave={handleMouseLeave}
         >
             {/* Display the uploader's username and avatar */}
-            <div className='flex items-center space-x-4'
-            >
-                <img
-                    src={imgUrl}
-                    alt="Uploader Avatar"
-                    className="w-12 h-12 rounded-full"
-                />
+            <div className="flex items-center space-x-4">
+                <div className="relative">
+                    <img
+                        src={imgUrl}
+                        alt="Uploader Avatar"
+                        className="w-12 h-12 rounded-full"
+                    />
+                    {/* Show the green dot if the uploader is online */}
+                    {isOnline && (
+                        <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                    )}
+                </div>
                 <div>
-                    <p className="font-light tracking-wider">{video?.uploadedBy?.username || 'Loading...'}</p>
+                    <p className="font-light tracking-wider">
+                        {video?.uploadedBy?.username || 'Loading...'}
+                    </p>
                     <FollowButton
                         userId={userId}
                         targetUserId={video?.uploadedBy?._id}

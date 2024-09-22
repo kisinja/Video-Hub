@@ -10,6 +10,7 @@ const userSlice = createSlice({
     // Initial state
     initialState: {
         currentUser: currentUser,
+        onlineUsers: {},
         isFetching: false,
         error: false,
     },
@@ -44,6 +45,11 @@ const userSlice = createSlice({
             state.isFetching = false;
             state.error = true;
         },
+
+        // update online users
+        updateUserStatus: (state, action) => {
+            state.onlineUsers = action.payload;
+        }
     }
 });
 
@@ -53,7 +59,8 @@ export const {
     loginFailure,
     logout, updateProfileStart,
     updateProfileSuccess,
-    updateProfileFailure
+    updateProfileFailure,
+    updateUserStatus
 } = userSlice.actions;
 
 export default userSlice.reducer;
