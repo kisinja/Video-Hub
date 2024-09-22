@@ -95,6 +95,8 @@ const Profile = () => {
         }
     };
 
+    
+
     return (
         <div className="p-4 md:p-8">
             <h1 className="text-2xl md:text-3xl font-light text-white mb-6 flex gap-2 items-center">

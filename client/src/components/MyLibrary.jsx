@@ -43,78 +43,92 @@ const MyLibrary = () => {
         fetchUserDetails();
     }, [user]);
 
+    const onlineUsers = useSelector((state) => state.user.onlineUsers);
+
+    const isOnline = onlineUsers[user._id]?.online;
+
     return (
         <section className="xl:px-24 px-8 py-8">
-            <h2 className="text-2xl font-light">Dashboard</h2>
+            <h2 className="text-2xl font-light mb-6">Dashboard</h2>
 
-            <div className="flex flex-col md:flex-row justify-between items-start pb-8 divide-y divide-red-700 w-full md:divide-y-0">
-                <div className="mt-8 flex flex-col gap-5 w-full md:w-2/3">
-                    <div className='flex gap-6'>
+            <div className="flex flex-col md:flex-row justify-between items-start pb-8 w-full gap-8">
+                {/* User Info Section */}
+                <div className="flex gap-6 items-center relative">
+                    <div className="relative w-[120px] h-[120px]">
                         <img
                             src={imgUrl}
-                            alt="Uploader Avatar"
-                            className="w-[120px] h-[120px] rounded-full"
+                            alt="User Avatar"
+                            className="w-full h-full rounded-full object-cover"
                         />
-                        <div className="flex flex-col gap-2">
-                            <p className="font-light tracking-wider text-2xl">{user.username || 'Loading...'}</p>
-                            <p className="text-red-500 font-light text-lg tracking-wider">{user.pronouns}</p>
-
-                            <div>
-                                <button className="bg-blue-500 text-white py-2 px-3 rounded font-semibold">
-                                    Edit Profile
-                                </button>
-                            </div>
-                        </div>
+                        {/* Green dot for online status */}
+                        {isOnline && (
+                            <span className="absolute bottom-1 right-4 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></span>
+                        )}
                     </div>
 
-                    <div className="flex flex-col gap-4">
-                        {user.bio && (
-                            <div className="text-gray-300 font-light tracking-wider">
-                                <span className="text-xs">{user.bio}</span>
-                            </div>
-                        )}
-                        {user.website && (
-                            <div className="flex items-center gap-2">
-                                <BsGlobe className="text-xl" />
-                                <a href={user.website} target="_blank" rel="noopener noreferrer" className="underline tracking-wider text-sm text-red-100" title={`Visit ${user.username}'s website`}>
-                                    {user.website}
-                                </a>
-                            </div>
-                        )}
-                        {user.location && (
-                            <div className="flex items-center gap-2">
-                                <LuMapPin className="text-xl" />
-                                <p className="text-gray-400 tracking-wider text-sm">{user.location}</p>
-                            </div>
-                        )}
+                    <div className="flex flex-col gap-2">
+                        <p className="font-light text-2xl">{user.username || 'Loading...'}</p>
+                        <p className="text-red-500 font-light text-lg">{user.pronouns}</p>
+                        <button className="bg-blue-500 text-white py-2 px-4 rounded font-semibold">
+                            Edit Profile
+                        </button>
                     </div>
                 </div>
 
-                <div className="flex flex-col mt-6 md:mt-0 md:w-1/3 w-1/2 pt-4">
-                    <div className="flex flex-row justify-between w-full items-center">
-                        <p className="text-gray-400 text-lg flex flex-col items-center">
+                {/* Followers and Following Section */}
+                <div className="flex flex-col items-center md:items-start">
+                    <div className="flex justify-between w-full md:flex-col md:items-start">
+                        <p className="text-gray-400 text-lg flex flex-col items-center md:items-start">
                             Followers
                             <span className="text-white text-2xl">{followers}</span>
                         </p>
-                        <p className="text-gray-400 text-lg flex flex-col items-center md:mt-0">
+                        <p className="text-gray-400 text-lg flex flex-col items-center md:items-start">
                             Following
                             <span className="text-white text-2xl">{following}</span>
                         </p>
                     </div>
                 </div>
+            </div>
 
+            {/* Bio, Website, Location */}
+            <div className="flex flex-col gap-4 mb-6">
+                {user.bio && (
+                    <div className="text-gray-300 font-light tracking-wider">
+                        <span className="text-xs">{user.bio}</span>
+                    </div>
+                )}
+                {user.website && (
+                    <div className="flex items-center gap-2">
+                        <BsGlobe className="text-xl" />
+                        <a
+                            href={user.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline text-sm text-red-100"
+                        >
+                            {user.website}
+                        </a>
+                    </div>
+                )}
+                {user.location && (
+                    <div className="flex items-center gap-2">
+                        <LuMapPin className="text-xl" />
+                        <p className="text-gray-400 text-sm">{user.location}</p>
+                    </div>
+                )}
             </div>
 
             <hr />
 
+            {/* Videos Section */}
             <div className="mt-6">
-                <h3 className="text-xl font-light mt-8 text-center mb-6">My Videos</h3>
+                <h3 className="text-xl font-light mb-6 text-center">My Videos</h3>
 
                 {loading ? (
                     <Spinner />
                 ) : (
                     userVideos.length > 0 ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 place-items-center gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             {userVideos.map(video => (
                                 <VideoCard key={video._id} video={video} />
                             ))}
