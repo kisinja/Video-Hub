@@ -9,7 +9,7 @@ const ProfilePage = () => {
         <div className="flex bg-black min-h-screen">
             <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
             <main className="flex-1 bg-gray-800 text-white">
-                <MainContent activeMenu={activeMenu} />
+                <MainContent activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
             </main>
         </div>
     );

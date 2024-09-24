@@ -4,7 +4,14 @@ const Schema = mongoose.Schema;
 const notificationSchema = new Schema({
     type: {
         type: String,
-        enum: ['new_follower', 'new_comment', 'video_viewed', 'new_video', 'like'], // Add more types as needed
+        enum: [
+            'new_follower',
+            'new_comment',
+            'video_viewed',
+            'new_video',
+            'like',
+            'live_stream' // New notification type
+        ],
         required: true,
     },
     recipient: {
@@ -20,11 +27,11 @@ const notificationSchema = new Schema({
     video: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Video',
-        required: false  // Only required for some types of notifications like 'new_comment', 'video_viewed', etc.
+        required: false,
     },
     content: {
         type: String,
-        required: false, // Can be used for additional details (like the comment text)
+        required: false,
     },
     isRead: {
         type: Boolean,

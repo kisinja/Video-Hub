@@ -31,11 +31,12 @@ const UploadVideo = () => {
             const res = await publicRequest.post('/videos/upload', formData);
             if (res.status === 200) {
                 setMessage(res.data.message);
-            } else {
-                setError(res.data.error);
+            } else if (res.status === 400) {
+                const data = await res.data;
+                setError(data.error);
             }
         } catch (error) {
-            setError(error.message);
+            console.log(error.message);
         } finally {
             setLoading(false);
         }
@@ -48,14 +49,17 @@ const UploadVideo = () => {
                 const res = await publicRequest.get('/videos');
                 if (res.status !== 200) {
                     setError(res.data.error);
+                    console.log(res.data);
                 }
             } catch (error) {
-                setError(error.message);
+                console.log(error.message);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchVideos();
-    }, []);
+    }, [token]);
 
     const { getRootProps: getVideoRootProps, getInputProps: getVideoInputProps } = useDropzone({
         accept: 'video/*',

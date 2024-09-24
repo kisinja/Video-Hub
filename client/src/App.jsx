@@ -10,6 +10,9 @@ import Login from './pages/Login';
 import ProfilePage from './pages/ProfilePage';
 import { useSelector } from 'react-redux';
 import { useSocketConnection } from './components/SocketProvider'; // Ensure your socket provider is correctly set up
+import LiveStream from './components/LiveStream';
+import CreateRoom from './components/CreateRoom';
+import UserProfile from './pages/UserProfile';
 
 const App = () => {
   const { currentUser: user } = useSelector((state) => state.user);
@@ -30,6 +33,11 @@ const App = () => {
           <Route path="/watch/video/:id" element={user ? <VideoDetails /> : <Navigate to="/login" />} />
           <Route path="/signup" element={user ? <Navigate to="/videos" /> : <SignUp />} />
           <Route path="/login" element={user ? <Navigate to="/videos" /> : <Login />} />
+
+          <Route path="/live/:roomId" element={<LiveStream />} />
+          <Route path="/create-room" element={<CreateRoom />} />
+
+          <Route path="/user-profile/:userId" element={<UserProfile />} />
         </Routes>
       </div>
       <Footer />

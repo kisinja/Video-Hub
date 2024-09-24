@@ -50,7 +50,7 @@ const deleteComment = async (req, res) => {
     try {
         const comment = await Comment.findByIdAndDelete(commentId);
         if (!comment) {
-            return res.status(404).json({ message: 'Comment not found' });
+            return res.status(404).json({ error: 'Comment not found' });
         }
 
         res.status(200).json({ message: 'Comment deleted' });
@@ -67,7 +67,7 @@ const updateComment = async (req, res) => {
     try {
         const comment = await Comment.findByIdAndUpdate(commentId, req.body, { new: true });
         if (!comment) {
-            return res.status(404).json({ message: 'Comment not found' });
+            return res.status(404).json({ error: 'Comment not found' });
         }
 
         res.status(200).json(comment);

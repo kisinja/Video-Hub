@@ -16,7 +16,7 @@ const CommentSection = ({ comments, handleCommentSubmit, content, setContent, me
     };
 
 
-    
+
 
 
     return (
@@ -42,7 +42,7 @@ const CommentSection = ({ comments, handleCommentSubmit, content, setContent, me
                 <textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    className="w-full p-2 bg-gray-900 text-white rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent"
+                    className="w-full p-2 bg-gray-900 text-white rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
                     rows="3"
                     placeholder="Leave a comment..."
                 />

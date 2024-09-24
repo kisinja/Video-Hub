@@ -6,7 +6,7 @@ import { LuMapPin } from "react-icons/lu";
 import VideoCard from "./VideoCard";
 import Spinner from "./Spinner";
 
-const MyLibrary = () => {
+const MyLibrary = ({ setActiveMenu }) => {
     const user = useSelector(state => state.user.currentUser);
     const [userInfo, setUserInfo] = useState(null);
     const [followers, setFollowers] = useState(0);
@@ -69,7 +69,7 @@ const MyLibrary = () => {
                     <div className="flex flex-col gap-2">
                         <p className="font-light text-2xl">{user.username || 'Loading...'}</p>
                         <p className="text-red-500 font-light text-lg">{user.pronouns}</p>
-                        <button className="bg-blue-500 text-white py-2 px-4 rounded font-semibold">
+                        <button className="bg-blue-500 text-white py-2 px-4 rounded font-semibold" onClick={() => setActiveMenu("profile")}>
                             Edit Profile
                         </button>
                     </div>

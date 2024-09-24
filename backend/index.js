@@ -5,6 +5,8 @@ const cors = require("cors");
 const path = require("path");
 const http = require('http');
 const socketIo = require('socket.io');
+const User = require('./models/User');
+const Notification = require('./models/Notification');
 
 const app = express();
 
@@ -14,7 +16,7 @@ const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
 app.use(express.json());
 app.use(morgan('common'));
 app.use(cors({
-    origins: allowedOrigins,
+    origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
 
@@ -44,16 +46,17 @@ const users = {};
 
 // Socket.io Connection
 io.on('connection', (socket) => {
+    console.log(`User connected: ${socket.id}`);
 
-    // when a user connects, we store their socket id in the users object and set their status to online e.g { userId: { socketId: 'socketId', online: true } }
+    // When a user connects, we store their socket id in the users object
     socket.on('user_connected', (userId) => {
         users[userId] = { socketId: socket.id, online: true };
 
-        // emit an event to all connected clients to update the user status
+        // Emit an event to all connected clients to update the user status
         io.emit('user_status_update', users);
     });
 
-    // when a user disconnects, we set their status to offline
+    // When a user disconnects, we set their status to offline
     socket.on('disconnect', () => {
         for (const userId in users) {
             if (users[userId].socketId === socket.id) {
@@ -63,19 +66,56 @@ io.on('connection', (socket) => {
         }
         io.emit('user_status_update', users);
     });
+
+    // Handle live stream signaling
+    socket.on('join-room', (roomId, userId) => {
+        socket.join(roomId);
+        socket.to(roomId).emit('user-connected', userId);
+
+        // Notify all users in the room about the new live stream
+        io.to(roomId).emit('user-connected', userId);
+
+        // Create a notification for all users except the one who started the stream
+        User.find({ _id: { $ne: userId } }) // Get all users except the one who created the room
+            .then(users => {
+                users.forEach(user => {
+                    const notification = new Notification({
+                        type: 'live_stream',
+                        recipient: user._id,
+                        triggeredBy: userId,
+                        content: `User ${userId} has started a live stream.`,
+                    });
+                    notification.save();
+                });
+            });
+
+        // Handle offers
+        socket.on('offer', (offer) => {
+            socket.to(roomId).emit('offer', offer);
+        });
+
+        // Handle answers
+        socket.on('answer', (answer) => {
+            socket.to(roomId).emit('answer', answer);
+        });
+
+        // Handle ICE candidates
+        socket.on('ice-candidate', (candidate) => {
+            socket.to(roomId).emit('ice-candidate', candidate);
+        });
+    });
 });
 
 // Start Server function
 const startServer = async () => {
     try {
         await connectDB();
-        app.listen(port, () => {
-            console.log(`Server listening on port ${port}`);
-        });
-
-        // Start the socket.io server
         server.listen(socketPort, () => {
             console.log(`Socket.io server running on port ${socketPort}`);
+        });
+
+        app.listen(port, () => {
+            console.log(`Server listening on port ${port}`);
         });
     } catch (error) {
         console.error(`Error: ${error.message}`);

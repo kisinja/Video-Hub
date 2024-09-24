@@ -47,6 +47,8 @@ const UserDetails = ({ video, userId }) => {
 
     const imgUrl = video.uploadedBy.avatar.startsWith('/uploads/avatar') ? `http://localhost:3500${video.uploadedBy.avatar}` : video.uploadedBy.avatar;
 
+    const user = useSelector(state => state.user.currentUser);
+
     return (
         <div
             className='relative cursor-pointer'
@@ -68,7 +70,7 @@ const UserDetails = ({ video, userId }) => {
                 </div>
                 <div>
                     <p className="font-light tracking-wider">
-                        {video?.uploadedBy?.username || 'Loading...'}
+                        {video.uploadedBy.username === user.username ? 'Me' : video.uploadedBy.username || 'Loading...'}
                     </p>
                     <FollowButton
                         userId={userId}

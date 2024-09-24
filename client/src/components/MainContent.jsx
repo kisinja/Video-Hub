@@ -3,7 +3,7 @@ import MyLibrary from "./MyLibrary";
 import Notifications from "./Notifications";
 import Profile from "./Profile";
 
-const MainContent = ({ activeMenu }) => {
+const MainContent = ({ activeMenu, setActiveMenu }) => {
     if (activeMenu === 'profile') {
         return <Profile />;
     }
@@ -11,7 +11,7 @@ const MainContent = ({ activeMenu }) => {
         return <Notifications />;
     }
     if (activeMenu === 'myLibrary') {
-        return <MyLibrary />;
+        return <MyLibrary setActiveMenu={setActiveMenu} />;
     }
     if (activeMenu === 'changePassword') {
         return <ChangePassword />;
