@@ -6,7 +6,7 @@ const NotificationCard = ({ notification }) => {
             case 'like':
                 return (
                     <p className="text-white">
-                        <Link to={`/profile/${notification.triggeredBy._id}`} className="font-bold hover:underline">
+                        <Link to={`/user-profile/${notification.triggeredBy._id}`} className="font-bold hover:underline">
                             {notification.triggeredBy.username}
                         </Link>
                         &nbsp;

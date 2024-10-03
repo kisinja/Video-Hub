@@ -31,6 +31,11 @@ const Navbar = () => {
             title: "Watch",
             path: "/videos",
         },
+        {
+            id: 4,
+            title: 'Go Live',
+            path:"/create-room"
+        }
     ];
 
     useEffect(() => {

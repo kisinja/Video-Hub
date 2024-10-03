@@ -63,11 +63,13 @@ input[type='range'] {
 .nav-link {
   position: relative;
   /* Required for ::before and ::after positioning */
-  color: #3f3f3f;
+  color: #666666;
   /* Default color */
   text-decoration: none;
   padding: 10px;
   transition: color 0.3s ease;
+
+  font-size: 18px;
 }
 
 /* Active link style */
@@ -129,19 +131,19 @@ input[type='range'] {
 
 /* Apply animations to like-btn and dislike-btn */
 .like-btn.scale-up {
-  animation: scaleUp 0.3s ease-out;
+  animation: scaleUp 0.1s ease-out;
 }
 
 .like-btn.scale-down {
-  animation: scaleDown 0.3s ease-out;
+  animation: scaleDown 0.1s ease-out;
 }
 
 .dislike-btn.scale-up {
-  animation: scaleUp 0.3s ease-out;
+  animation: scaleUp 0.1s ease-out;
 }
 
 .dislike-btn.scale-down {
-  animation: scaleDown 0.3s ease-out;
+  animation: scaleDown 0.1s ease-out;
 }
 
 /* Loader CSS */

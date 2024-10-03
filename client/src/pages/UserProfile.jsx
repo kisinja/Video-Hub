@@ -6,6 +6,7 @@ import VideoCard from '../components/VideoCard';
 import { LuMapPin } from 'react-icons/lu';
 import { BsGlobe } from 'react-icons/bs';
 import Spinner from '../components/Spinner';
+import FollowButton from '../components/FollowButton';
 
 const UserProfile = () => {
 
@@ -17,6 +18,8 @@ const UserProfile = () => {
     const token = useSelector(state => state.user.currentUser.token);
 
     const onlineUsers = useSelector((state) => state.user.onlineUsers);
+
+    const currentUser = useSelector(state => state.user.currentUser);
 
     useEffect(() => {
         // Fetch user profile
@@ -53,69 +56,69 @@ const UserProfile = () => {
     const isOnline = onlineUsers[userInfo._id];
 
     return (
-        <section className="xl:px-24 px-8 py-8">
-            <div className="flex flex-col gap-6 items-center w-full">
-                {/* User Info Section */}
-                <div className="flex flex-col gap-5 md:flex-row md:justify-between w-full items-center">
-                    <div className="flex gap-6 items-center relative">
-                        <div className='flex justify-between'>
-                            <div className="relative w-[120px] h-[120px]">
-                                <img
-                                    src={userInfo?.avatar.startsWith('/uploads/avatar') ? `http://localhost:3500${userInfo.avatar}` : userInfo.avatar}
-                                    alt="User Avatar"
-                                    className="w-full h-full rounded-full object-cover"
-                                />
-                                {/* Green dot for online status */}
-                                {isOnline && (
-                                    <span className="absolute bottom-1 right-4 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></span>
-                                )}
+        <section className="xl:px-24 px-8 py-8 flex justify-center items-center">
+            <div className="flex flex-col gap-6 md:w-[90%]">
+                <div className=''>
+                    <div className='flex justify-between'>
+                        <div className='flex flex-col gap-6'>
+                            <div className='flex gap-8 '>
+                                <div className="relative w-[120px] h-[120px]">
+                                    <img
+                                        src={userInfo?.avatar.startsWith('/uploads/avatar') ? `http://localhost:3500${userInfo.avatar}` : userInfo.avatar}
+                                        alt="User Avatar"
+                                        className="w-full h-full rounded-full object-cover"
+                                    />
+                                    {isOnline && (
+                                        <span className="absolute bottom-1 right-4 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></span>
+                                    )}
+                                </div>
+
+                                <div className="flex flex-col gap-2">
+                                    <p className="font-light text-2xl text-white">{userInfo?.username || 'Loading...'}</p>
+                                    <p className="text-red-500 font-light text-lg">{userInfo?.pronouns}</p>
+
+                                    <FollowButton targetUserId={userInfo._id} userId={currentUser._id} />
+                                </div>
                             </div>
 
-                            <div className="flex flex-col gap-2">
-                                <p className="font-light text-2xl text-white">{userInfo?.username || 'Loading...'}</p>
-                                <p className="text-red-500 font-light text-lg">{userInfo?.pronouns}</p>
+                            <div className='flex flex-col space-y-2'>
+                                {userInfo?.bio && (
+                                    <div className="text-gray-300 font-light tracking-wider">
+                                        <span className="text-base">{userInfo.bio}</span>
+                                    </div>
+                                )}
+                                {userInfo?.website && (
+                                    <div className="flex items-center gap-2">
+                                        <BsGlobe className="text-xl text-white" />
+                                        <a
+                                            href={userInfo.website}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="underline text-sm text-red-100"
+                                        >
+                                            {userInfo.website}
+                                        </a>
+                                    </div>
+                                )}
+                                {userInfo?.location && (
+                                    <div className="flex items-center gap-2">
+                                        <LuMapPin className="text-xl text-white" />
+                                        <p className="text-gray-400 text-sm">{userInfo.location}</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
-                        {/* Followers & Following */}
-                        <div className="flex flex-col md:flex-row gap-4">
-                            <div className="text-center">
-                                <p className="text-white text-lg font-medium">{userInfo?.followers?.length || 0}</p>
+                        <div className="flex gap-12">
+                            <div className="">
+                                <p className="text-white text-lg font-medium text-center">{userInfo?.followers?.length || 0}</p>
                                 <p className="text-gray-400 text-sm">Followers</p>
                             </div>
-                            <div className="text-center">
-                                <p className="text-white text-lg font-medium">{userInfo?.following?.length || 0}</p>
+                            <div className="">
+                                <p className="text-white text-lg font-medium text-center">{userInfo?.following?.length || 0}</p>
                                 <p className="text-gray-400 text-sm">Following</p>
                             </div>
                         </div>
-                    </div>
-
-                    {/* Bio, Website, Location */}
-                    <div className="flex flex-col gap-4 mb-6 md:mb-0">
-                        {userInfo?.bio && (
-                            <div className="text-gray-300 font-light tracking-wider">
-                                <span className="text-xs">{userInfo.bio}</span>
-                            </div>
-                        )}
-                        {userInfo?.website && (
-                            <div className="flex items-center gap-2">
-                                <BsGlobe className="text-xl text-white" />
-                                <a
-                                    href={userInfo.website}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="underline text-sm text-red-100"
-                                >
-                                    {userInfo.website}
-                                </a>
-                            </div>
-                        )}
-                        {userInfo?.location && (
-                            <div className="flex items-center gap-2">
-                                <LuMapPin className="text-xl text-white" />
-                                <p className="text-gray-400 text-sm">{userInfo.location}</p>
-                            </div>
-                        )}
                     </div>
                 </div>
 

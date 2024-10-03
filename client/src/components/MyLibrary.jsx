@@ -69,7 +69,7 @@ const MyLibrary = ({ setActiveMenu }) => {
                     <div className="flex flex-col gap-2">
                         <p className="font-light text-2xl">{user.username || 'Loading...'}</p>
                         <p className="text-red-500 font-light text-lg">{user.pronouns}</p>
-                        <button className="bg-blue-500 text-white py-2 px-4 rounded font-semibold" onClick={() => setActiveMenu("profile")}>
+                        <button className="bg-blue-500 text-white py-2 px-4 rounded font-semibold focus:bg-white focus:text-black focus:ring-4 focus:ring-blue-600" onClick={() => setActiveMenu("profile")}>
                             Edit Profile
                         </button>
                     </div>

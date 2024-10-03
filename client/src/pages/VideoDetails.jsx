@@ -268,12 +268,6 @@ const VideoDetails = () => {
                             likeAnimating={likeAnimating}
                             dislikeAnimating={dislikeAnimating}
                             likes={likes}
-                            content={content}
-                            setContent={setContent}
-                            message={message}
-                            error={error}
-                            comments={comments}
-                            handleCommentSubmit={handleCommentSubmit}
                         />
 
                         {/* Video views */}

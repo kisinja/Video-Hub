@@ -2,6 +2,8 @@ import { CgProfile } from "react-icons/cg";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { VscLibrary } from "react-icons/vsc";
 import { MdOutlineSecurity } from "react-icons/md";
+import { BiVideoRecording } from 'react-icons/bi';
+import { CgStopwatch } from "react-icons/cg";
 
 // Sidebar component
 const Sidebar = ({ activeMenu, setActiveMenu }) => {
@@ -11,8 +13,29 @@ const Sidebar = ({ activeMenu, setActiveMenu }) => {
             <ul className="space-y-4 flex flex-col-reverse">
                 <li>
                     <button
+                        onClick={() => setActiveMenu('live-stream')}
+                        className={`text-lg font-semibold w-full text-left py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none flex gap-2 items-center 
+                            ${activeMenu === 'live-stream' ? 'bg-red-600 text-white' : 'text-gray-400'}`}
+                    >
+                        <BiVideoRecording className="text-2xl" />
+                        <span className="hidden md:inline">Go Live</span>
+                    </button>
+                </li>
+                <li>
+                    <button
+                        onClick={() => setActiveMenu('watchHistory')}
+                        className={`text-lg font-semibold w-full text-left py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none flex gap-2 items-center
+                            ${activeMenu === 'watchHistory' ? 'bg-red-600 text-white' : 'text-gray-400'}`}
+                    >
+                        <CgStopwatch className="text-2xl" />
+                        <span className="hidden md:inline">Watch History</span>
+                    </button>
+                </li>
+
+                <li>
+                    <button
                         onClick={() => setActiveMenu('changePassword')}
-                        className={`text-lg font-semibold w-full text-left py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none flex gap-2 items-center mt-4
+                        className={`text-lg font-semibold w-full text-left py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none flex gap-2 items-center
                             ${activeMenu === 'changePassword' ? 'bg-red-600 text-white' : 'text-gray-400'}`}
                     >
                         <MdOutlineSecurity className="text-2xl" />
