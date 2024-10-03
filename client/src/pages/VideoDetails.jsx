@@ -4,7 +4,6 @@ import { createPublicRequest } from '../axiosConfig'; // Make sure this is the c
 import Spinner from '../components/Spinner';
 import CommentSection from '../components/CommentSection';
 import LikedBySection from '../components/LikedBySection';
-import FollowButton from '../components/FollowButton';
 import { useSelector } from 'react-redux';
 import { LiaEyeSolid } from "react-icons/lia";
 import UserDetails from '../components/UserDetails';
