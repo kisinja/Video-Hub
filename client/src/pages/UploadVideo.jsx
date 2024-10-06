@@ -11,6 +11,7 @@ const UploadVideo = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
+    const [categories, setCategories] = useState([]);
 
     const token = useSelector(state => state.user.currentUser?.token);
 
@@ -23,6 +24,7 @@ const UploadVideo = () => {
         const formData = new FormData();
         formData.append('title', title);
         formData.append('description', description);
+        formData.append('categories', categories);
         if (videoUrl) formData.append('videoUrl', videoUrl);
         if (thumbnailUrl) formData.append('thumbnailUrl', thumbnailUrl);
 
@@ -70,6 +72,13 @@ const UploadVideo = () => {
         accept: 'image/*',
         onDrop: (acceptedFiles) => setThumbnailUrl(acceptedFiles[0]),
     });
+
+    const handleCategoryChange = (e) => {
+        const value = Array.from(
+            e.target.selectedOptions, (option) => option.value
+        );
+        setCategories(value);
+    };
 
     return (
         <section className="bg-gray-900 min-h-screen flex flex-col items-center justify-center py-10">
@@ -120,6 +129,18 @@ const UploadVideo = () => {
                         <input {...getThumbnailInputProps()} id="thumbnail" />
                         <p className="text-gray-400">{thumbnailUrl ? thumbnailUrl.name : 'Drag & drop image file here, or click to select'}</p>
                     </div>
+                </div>
+
+                <div className="mb-6">
+                    <label htmlFor="thumbnail" className="block text-lg text-gray-200 mb-2">Category</label>
+
+                    <select className="w-full border border-gray-600 rounded px-4 py-3 bg-gray-700 text-white placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-red-500" multiple id="categories" onChange={handleCategoryChange}>
+                        <option value="Music" className="border p-2 rounded mb-1">Music</option>
+                        <option value="Technology" className="border p-2 rounded mb-1">Technology</option>
+                        <option value="Comedy" className="border p-2 rounded mb-1">Comedy</option>
+                        <option value="Educational" className="border p-2 rounded mb-1">Educational</option>
+                        <option value="Movies" className="border p-2 rounded mb-1">Movies</option>
+                    </select>
                 </div>
 
                 {error && <div className="mb-4 bg-red-600 text-white p-3 rounded">{error}</div>}

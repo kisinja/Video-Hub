@@ -13,7 +13,7 @@ const VideosList = () => {
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [videosPerPage] = useState(6);
-    const [activeCategory, setActiveCategory] = useState('All');
+    const [activeCategory, setActiveCategory] = useState('');
     const [categories, setCategories] = useState([
         {
             id: 1,
@@ -27,7 +27,22 @@ const VideosList = () => {
         },
         {
             id: 3,
-            name: 'Subscribed',
+            name: 'Music',
+            icon: <MdLocalMovies />
+        },
+        {
+            id: 4,
+            name: 'Technology',
+            icon: <MdOutlineWatchLater />
+        },
+        {
+            id: 5,
+            name: 'Comedy',
+            icon: <MdOutlineWatchLater />
+        },
+        {
+            id: 6,
+            name: 'Educational',
             icon: <MdOutlineWatchLater />
         }
     ]); // Example categories
@@ -39,7 +54,7 @@ const VideosList = () => {
         const fetchVideos = async () => {
             try {
                 const publicRequest = createPublicRequest(token); // Get the Axios instance
-                const res = await publicRequest.get(`/videos`);
+                const res = await publicRequest.get(`/videos?category=${activeCategory}`);
                 if (res.status === 200) {
                     const data = res.data;
                     console.log(data);

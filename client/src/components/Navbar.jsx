@@ -34,7 +34,7 @@ const Navbar = () => {
         {
             id: 4,
             title: 'Go Live',
-            path:"/create-room"
+            path: "/create-room"
         }
     ];
 
@@ -69,7 +69,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className={`flex justify-between items-center bg-black py-3 px-[5%] sticky top-0 z-[10000] ${showColor && 'shadow-md shadow-blue-700'}`}>
+        <nav className={`flex justify-between items-center bg-black py-3 px-[5%] sticky top-0 z-[10000] shadow-md  ${showColor && 'shadow-blue-700'} shadow-white`}>
             <Link to="/">
                 <h1 className="text-gray-100 text-2xl font-light">
                     Video <span className="text-red-700">Hub</span>
@@ -145,7 +145,7 @@ const Navbar = () => {
                                         <NavLink
                                             to="/profile"
                                             className="flex gap-2 items-center px-5 py-2 text-gray-600 hover:bg-gray-100 text-sm hover:rounded-lg cursor-pointer"
-                                            onClick={() => setShowMobileMenu(!showMobileMenu)}
+                                            onClick={() => setShowMobileMenu(false)}
                                         >
                                             <IoMdSettings
                                                 className="text-xl"
@@ -279,7 +279,7 @@ const Navbar = () => {
                                                 <NavLink
                                                     to="/profile"
                                                     className="block px-4 py-2 text-gray-600 hover:bg-gray-100 text-sm"
-                                                    onClick={() => setShowMobileMenu(!showMobileMenu)}
+                                                    onClick={() => setShowMobileMenu(false)}
                                                 >
                                                     Profile (<span className="text-white">
                                                         {currentUser.username}
@@ -303,7 +303,7 @@ const Navbar = () => {
                                                 <NavLink
                                                     to="/signup"
                                                     className="block px-4 py-2 text-black hover:bg-gray-100"
-                                                    onClick={() => setShowMobileMenu(!showMobileMenu)}
+                                                    onClick={() => setShowMobileMenu(false)}
                                                 >
                                                     Sign Up
                                                 </NavLink>
@@ -312,7 +312,7 @@ const Navbar = () => {
                                                 <NavLink
                                                     to="/login"
                                                     className="block px-4 py-2 text-black hover:bg-gray-100"
-                                                    onClick={() => setShowMobileMenu(!showMobileMenu)}
+                                                    onClick={() => setShowMobileMenu(false)}
                                                 >
                                                     Login
                                                 </NavLink>

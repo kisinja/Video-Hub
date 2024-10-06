@@ -11,7 +11,7 @@ const uploadVideoController = (req, res) => {
             return res.status(400).json({ error: err.message });
         }
 
-        const { title, description } = req.body;
+        const { title, description, categories } = req.body;
 
         // Validate that both files (video and thumbnail) are uploaded
         if (!req.files['videoUrl'] || !req.files['thumbnailUrl']) {
@@ -44,6 +44,7 @@ const uploadVideoController = (req, res) => {
                 description,
                 videoUrl,
                 thumbnailUrl,
+                categories,
                 uploadedBy: req.user._id,
             });
 
@@ -61,12 +62,24 @@ const uploadVideoController = (req, res) => {
 
 const getVideosController = async (req, res) => {
     try {
-        const videos = await Video.find().populate("uploadedBy", "avatar username");
+        const category = req.query.category;
+        let videos;
+
+        if (category) {
+            videos = await Video.find({ categories: category });
+        } else if (category === "All") {
+            videos = await Video.find().populate("uploadedBy", "avatar username");
+        }
+        else {
+            videos = await Video.find().populate("uploadedBy", "avatar username");
+        }
         res.status(200).json(videos);
-    } catch (error) {
+    }
+
+    catch (error) {
         res.status(400).json({ error: error.message });
         console.log(error.message);
-    }
+    };
 };
 
 const getFeaturedVideos = async (req, res) => {
