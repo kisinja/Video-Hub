@@ -72,7 +72,7 @@ const Sidebar = ({ activeMenu, setActiveMenu }) => {
                             ${activeMenu === 'myLibrary' ? 'bg-red-600 text-white' : 'text-gray-400'}`}
                     >
                         <VscLibrary className="text-2xl" />
-                        <span className="hidden md:inline">My Library</span>
+                        <span className="hidden md:inline">My Dashboard</span>
                     </button>
                 </li>
                 {/* Add more menu items here */}
