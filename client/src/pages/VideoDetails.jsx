@@ -4,9 +4,10 @@ import { createPublicRequest } from '../axiosConfig'; // Make sure this is the c
 import Spinner from '../components/Spinner';
 import CommentSection from '../components/CommentSection';
 import LikedBySection from '../components/LikedBySection';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { LiaEyeSolid } from "react-icons/lia";
 import UserDetails from '../components/UserDetails';
+import { addToWatchHistory } from '../redux/watchHistorySlice';
 
 const VideoDetails = () => {
     const { id } = useParams();
@@ -25,6 +26,8 @@ const VideoDetails = () => {
     const [likedBy, setLikedBy] = useState([]);
     const [showLikedBy, setShowLikedBy] = useState(false);
     const [hasCountedView, setHasCountedView] = useState(false);
+
+    const dispatch = useDispatch();
 
     const { currentUser } = useSelector(state => state.user);
     const userId = currentUser?._id;
@@ -153,7 +156,16 @@ const VideoDetails = () => {
 
         // Count a view after the user has watched at least 30% of the video
         if (!hasCountedView && currentTime / duration >= 0.3) {
+
+            // INCREMENT VIDEO VIEWS
             incrementView();
+
+            // ADD TO WATCH HISTORY
+            dispatch(
+                /* addToWatchHistory({ ...video, watchedAt: new Date() }) */
+                addToWatchHistory({ ...video, watchedAt: new Date(), user: userId })
+            );
+
             setHasCountedView(true);
         }
     };

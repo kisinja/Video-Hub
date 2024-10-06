@@ -3,7 +3,7 @@ import MainContent from "../components/MainContent";
 import Sidebar from "../components/Sidebar";
 
 const ProfilePage = () => {
-    const [activeMenu, setActiveMenu] = useState('myLibrary');
+    const [activeMenu, setActiveMenu] = useState('watchHistory');
 
     return (
         <div className="flex bg-black min-h-screen">

@@ -60,7 +60,7 @@ const Home = () => {
                 ) : (
                     <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {featuredVideos.map((video) => (
-                            <VideoCard video={video} key={video._id} />
+                            <VideoCard video={video} key={video._id} showDate={true} />
                         ))}
                     </div>
                 )}

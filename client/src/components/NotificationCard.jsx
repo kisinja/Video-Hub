@@ -6,8 +6,8 @@ const NotificationCard = ({ notification }) => {
             case 'like':
                 return (
                     <p className="text-white">
-                        <Link to={`/user-profile/${notification.triggeredBy._id}`} className="font-bold hover:underline">
-                            {notification.triggeredBy.username}
+                        <Link to={`/user-profile/${notification.triggeredBy?._id}`} className="font-bold hover:underline">
+                            {notification.triggeredBy?.username}
                         </Link>
                         &nbsp;
                         liked your
@@ -21,7 +21,7 @@ const NotificationCard = ({ notification }) => {
                 return (
                     <p className="text-white">
                         <Link to={`/profile/${notification.triggeredBy._id}`} className="font-bold hover:underline">
-                            {notification.triggeredBy.username}
+                            {notification.triggeredBy?.username}
                         </Link>
                         started following you.
                     </p>
@@ -30,7 +30,7 @@ const NotificationCard = ({ notification }) => {
                 return (
                     <p className="text-white">
                         <Link to={`/profile/${notification.triggeredBy._id}`} className="font-bold hover:underline">
-                            {notification.triggeredBy.username}
+                            {notification.triggeredBy?.username}
                         </Link>
                         commented on your
                         <Link to={`/post/${notification.contentId}`} className="font-bold hover:underline text-green-500">
@@ -44,15 +44,15 @@ const NotificationCard = ({ notification }) => {
     };
 
     const imgUrl = notification.triggeredBy?.avatar.startsWith('/uploads/avatars')
-        ? `http://localhost:3500${notification.triggeredBy.avatar}`  // Fetch from server if it's a custom avatar
-        : notification.triggeredBy.avatar;
+        ? `http://localhost:3500${notification.triggeredBy?.avatar}`  // Fetch from server if it's a custom avatar
+        : notification.triggeredBy?.avatar;
 
     return (
         <div className="bg-gray-900 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition-all duration-300 flex items-center space-x-4">
             {/* Avatar of the user who triggered the notification */}
             <img
                 src={imgUrl}
-                alt={notification.triggeredBy.username}
+                alt={notification.triggeredBy?.username}
                 className="w-12 h-12 rounded-full"
             />
 
